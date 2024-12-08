@@ -1,35 +1,27 @@
 <?php
 session_start();
 
+// Comprobamos si hay sesion activa
 if (!isset($_SESSION['usuario'])) {
     header("Location: login.php");
     exit();
 }
 
-$usuario = $_SESSION['usuario'];
-$rol = $_SESSION['rol'];
+// Asignamos variables
+    $usuario = $_SESSION['usuario'];
+    $rol = $_SESSION['rol'];
+    $titulo = "Bienvenido, $usuario";
 
-$titulo = "Bienvenido, $usuario";
-$contenido = '';
-
-switch ($rol) {
-    case 'usuario':
-        $contenido = '<p>Tu Membresia: Basica</p>
-                      <a href="clases.php">Ver Clases</a>';
-        break;
-
-    case 'profesor':
+// Contenido segun el rol
+    if ($rol === 'usuario') {
+        $contenido = '<p>Tu Membresia: Basica</p><a href="clases.php">Ver Clases</a>';
+    } elseif ($rol === 'profesor') {
         $contenido = '<p>Clases y Usuarios</p>';
-        break;
-
-    case 'admin':
+    } elseif ($rol === 'admin') {
         $contenido = '<p>Gestion Completa</p>';
-        break;
-
-    default:
+    } else {
         $contenido = '<p>Rol no reconocido</p>';
-        break;
-}
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -45,3 +37,11 @@ switch ($rol) {
     </div>
 </body>
 </html>
+<!-- 
+    PHP:
+    Manejamos la sesion y validamos que el usuario este logueado. Si no, lo mandamos al login.
+    Dependiendo del rol, definimos el contenido que luego se muestra.
+
+    HTML:
+    Solo usamos echo para mostrar las variables ya preparadas en el php.
+-->

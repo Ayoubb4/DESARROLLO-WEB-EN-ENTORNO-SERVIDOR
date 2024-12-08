@@ -4,18 +4,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $contrasena = $_POST['contrasena'];
     $rol = $_POST['rol'];
 
-    if (preg_match('/^(?=.*[a-z])(?=.*[A-Z]).{6,}$/', $nombre)/* Nombre de usuario (debe contener mínimo 6 letras, combinando mayúsculas y
-    minúsculas). */ 
-    && 
-        preg_match('/^(?=.*[a-zA-Z])(?=.*\d).{6}$/', $contrasena))/* Contraseña (debe contener exactamente 6 dígitos que contengan letras y números) */ 
-        {
-        
-        setcookie('ultimo_usuario', $nombre, time() + 3600); // Cookie 1hora
+    // Validar nombre de usuario y contraseña
+    $error = '';
+    if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z]).{6,}$/', $nombre)) {
+        $error = "El nombre debe tener al menos 6 letras combinando mayusculas y minusculas.";
+    } elseif (!preg_match('/^(?=.*[a-zA-Z])(?=.*\d).{6}$/', $contrasena)) {
+        $error = "La contraseña debe tener exactamente 6 caracteres combinando letras y numeros.";
+    } else {
+        // Guardamos la cookie y redirigimos
+        setcookie('ultimo_usuario', $nombre, time() + 3600); // Cookie dura 1 hora
         header("Location: login.php");
         exit();
-    } else {
-        $error = "Nombre o contraseña no cumplen los requisitos. Nombre de usuario (debe contener mínimo 6 letras, combinando mayúsculas y
-    minúsculas) Contraseña (debe contener exactamente 6 dígitos que contengan letras y números)";
     }
 }
 ?>
@@ -37,6 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </select>
         <button type="submit">Registrarse</button>
     </form>
-    <?php if (isset($error)){echo "<p>$error</p>";}?>
+    <?php 
+    // Mostramos errores si los hay
+    if (!empty($error)): ?>
+        <p><?php echo $error; ?></p>
+    <?php endif; ?>
 </body>
 </html>
+<!-- Si el nombre o la contraseña no cumplen los requisitos, mostramos mensajes claros y concretos al usuario. -->

@@ -1,8 +1,20 @@
 <?php
 session_start();
+
+// Comprobamos si hay sesion activa
 if (!isset($_SESSION['usuario'])) {
     header("Location: login.php");
     exit();
+}
+
+// Lista de clases
+$clases = ['Yoga', 'Pilates', 'Spinning'];
+
+// Generamos el contenido de la lista como un string
+$listaClases = '';
+
+foreach ($clases as $clase) {
+    $listaClases .= "<li>$clase</li>";
 }
 ?>
 <!DOCTYPE html>
@@ -14,9 +26,7 @@ if (!isset($_SESSION['usuario'])) {
 <body>
     <h1>Clases Disponibles</h1>
     <ul>
-        <li>Yoga</li>
-        <li>Pilates</li>
-        <li>Spinning</li>
+        <?php echo $listaClases; ?>
     </ul>
 </body>
 </html>
