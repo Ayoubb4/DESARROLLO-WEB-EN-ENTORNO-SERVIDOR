@@ -14,7 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: login.php");
         exit();
     } else {
-        $error = "Nombre o contraseña no cumplen los requisitos.";
+        $error = "Nombre o contraseña no cumplen los requisitos. Nombre de usuario (debe contener mínimo 6 letras, combinando mayúsculas y
+    minúsculas) Contraseña (debe contener exactamente 6 dígitos que contengan letras y números)";
     }
 }
 ?>
